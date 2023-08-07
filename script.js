@@ -1,4 +1,8 @@
 const container = document.querySelector('.container');
+const winMessage = document.createElement('div');
+winMessage.classList.add('win-message');
+winMessage.style.display = 'none';
+container.after(winMessage);
 
 const rows = 3;
 const cols = 3;
@@ -40,28 +44,21 @@ class TicTacToe {
             this.makeMove(parseInt(row), parseInt(col));
       
             if (this.checkForWin()) {
-              
-              setTimeout(() => {
-                this.resetGame();
-                alert("the player " + this.currentPlayer().marker + " won!");
-                this.startGame();
-              }, 25); // The callback will be executed after 3000 milliseconds
+              const winningPlayer = this.currentPlayer();
+              winMessage.textContent = `Player ${winningPlayer.marker} won!`;
+              winMessage.style.display = 'block';
+              this.hideResetButton();
             } else {
-              console.log(this.turn)
               this.switchPlayer();
-              if (this.turn === 10) { //!Don't change this to 9 'cause it will give draw when the 8 out of 9 fields are marked
-                setTimeout(() => {
-                alert("The game is a tie!");
-                this.resetGame();
-                this.startGame();
-            },25);
-                
+              if (this.turn === 10) { // Don't change this to 9, 'cause it will give a draw when 8 out of 9 fields are marked
+                winMessage.textContent = "The game is a tie!";
+                winMessage.style.display = 'block';
+                this.hideResetButton();
               }
             }
           }
         });
-      }
-      
+    }
 
     makeMove(row, col) {
         this.board[row][col] = this.currentPlayer().marker;
@@ -77,8 +74,8 @@ class TicTacToe {
             [[0, 2], [1, 2], [2, 2]], // Column 2
             [[0, 0], [1, 1], [2, 2]], // Diagonal from top-left to bottom-right
             [[2, 0], [1, 1], [0, 2]]  // Diagonal from top-right to bottom-left
-          ];
-          
+        ];
+        
         const board = this.board; // Access the game board from the TicTacToe instance
 
         // Iterate through the winning possibilities
@@ -94,36 +91,34 @@ class TicTacToe {
           const marker3 = board[row3][col3];
       
           if (marker1 && marker1 === marker2 && marker2 === marker3) {
-            
             return true;
-            
           }
         }
        
         // No win condition found
-        
-        
+        return false;
     }
 
     switchPlayer() {
         this.turn++;
     }
+
     resetGame() {
         this.turn = 1;
         const panel = document.querySelectorAll('.panel');
         panel.forEach(element => {
           element.textContent = "";
         });
-      }
-      
-}   
+        winMessage.style.display = 'none';
+        
+    }
 
+  
+}
 
 const game = new TicTacToe();
 resetBtn = document.querySelector('.resetBtn');
 resetBtn.addEventListener('click', () => {
     game.resetGame();
-    game.startGame(); // Start the game again after resetting
 });
 game.startGame();
-game.resetGame();
