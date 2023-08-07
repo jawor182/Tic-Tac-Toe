@@ -1,0 +1,22 @@
+html{
+    font-family: 'Roboto Slab', serif;
+}
+/* CSS code to style the 3x3 grid */
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 100px); /* Three columns, each 100px wide */
+    grid-gap: 10px; /* Gap between grid items */
+    justify-content: center; /* Center the grid horizontally */
+    margin-top: 10%; /* Add some spacing on top */
+  }
+  
+  .panel {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    height: 100px; /* Set the height of each panel */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+  
