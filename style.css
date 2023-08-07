@@ -7,7 +7,7 @@ html{
     grid-template-columns: repeat(3, 100px); /* Three columns, each 100px wide */
     grid-gap: 10px; /* Gap between grid items */
     justify-content: center; /* Center the grid horizontally */
-    margin-top: 10%; /* Add some spacing on top */
+    margin-top: 5%; /* Add some spacing on top */
   }
   
   .panel {
@@ -19,4 +19,19 @@ html{
     justify-content: center;
     font-size: 48px;
   }
-  
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.resetBtn{
+    margin-top: 5vh;
+    background-color: rgb(38, 176, 255);
+    color:white;
+    border-radius: 5px;
+    width: 320px;
+}
+.turn{
+    margin-top: 5%;
+    font-size: x-large;
+}
