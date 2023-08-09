@@ -51,7 +51,7 @@ class TicTacToe {
           event.target.textContent = currentPlayer.marker;
           const [row, col] = event.target.id.split('-');
           this.makeMove(parseInt(row), parseInt(col));
-          console.log(this.turn) //!don't delete this 
+         
           if (this.checkForWin()) {
               const winningPlayer = this.currentPlayer();
               winMessage.textContent = `Player ${winningPlayer.marker} won!`;
