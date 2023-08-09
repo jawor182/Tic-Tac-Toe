@@ -1,9 +1,10 @@
 const container = document.querySelector('.container');
 const winMessage = document.createElement('div');
+const body = document.querySelector('body');
 winMessage.classList.add('win-message');
 winMessage.style.display = 'none';
 container.after(winMessage);
-
+body.appendChild(winMessage);
 const rows = 3;
 const cols = 3;
 
@@ -29,6 +30,7 @@ class TicTacToe {
     constructor() {
         this.turn = 1;
         this.board = Array.from({ length: rows }, () => Array(cols).fill(null));
+        this.gameEnded = false;
     }
 
     currentPlayer() {
@@ -36,29 +38,35 @@ class TicTacToe {
     }
 
     startGame() {
-        container.addEventListener("click", (event) => {
+      container.addEventListener("click", (event) => {
+          if (!event.target.classList.contains('panel') || event.target.textContent !== '') {
+              return;
+          }
+          
+          if (this.gameEnded) {
+              return;
+          }
+          
           const currentPlayer = this.currentPlayer();
-          if (event.target.classList.contains('panel') && event.target.textContent === '') {
-            event.target.textContent = currentPlayer.marker;
-            const [row, col] = event.target.id.split('-');
-            this.makeMove(parseInt(row), parseInt(col));
-      
-            if (this.checkForWin()) {
+          event.target.textContent = currentPlayer.marker;
+          const [row, col] = event.target.id.split('-');
+          this.makeMove(parseInt(row), parseInt(col));
+          console.log(this.turn) //!don't delete this 
+          if (this.checkForWin()) {
               const winningPlayer = this.currentPlayer();
               winMessage.textContent = `Player ${winningPlayer.marker} won!`;
               winMessage.style.display = 'block';
-              this.hideResetButton();
-            } else {
+              this.gameEnded = true;
+          } else {
               this.switchPlayer();
-              if (this.turn === 10) { // Don't change this to 9, 'cause it will give a draw when 8 out of 9 fields are marked
-                winMessage.textContent = "The game is a tie!";
-                winMessage.style.display = 'block';
-                this.hideResetButton();
+              if (this.turn === 10) { //!Don't change this. It's not a bug but a feature!
+                  winMessage.textContent = "The game is a tie!";
+                  winMessage.style.display = 'block';
+                  this.gameEnded = true;
               }
-            }
           }
-        });
-    }
+      });
+  }
 
     makeMove(row, col) {
         this.board[row][col] = this.currentPlayer().marker;
@@ -104,20 +112,19 @@ class TicTacToe {
     }
 
     resetGame() {
-        this.turn = 1;
-        const panel = document.querySelectorAll('.panel');
-        panel.forEach(element => {
+      this.turn = 1;
+      this.gameEnded = false;
+      this.board = Array.from({ length: rows }, () => Array(cols).fill(null)); // Reset the game board
+      const panel = document.querySelectorAll('.panel');
+      panel.forEach(element => {
           element.textContent = "";
-        });
-        winMessage.style.display = 'none';
-        
-    }
-
-  
+      });
+      winMessage.style.display = 'none';
+  }
 }
 
 const game = new TicTacToe();
-resetBtn = document.querySelector('.resetBtn');
+const resetBtn = document.querySelector('.resetBtn');
 resetBtn.addEventListener('click', () => {
     game.resetGame();
 });

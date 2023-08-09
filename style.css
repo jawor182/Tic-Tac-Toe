@@ -7,7 +7,7 @@ html{
     grid-template-columns: repeat(3, 100px); /* Three columns, each 100px wide */
     grid-gap: 10px; /* Gap between grid items */
     justify-content: center; /* Center the grid horizontally */
-    margin-top: 5%; /* Add some spacing on top */
+    margin-top: 10%; /* Add some spacing on top */
   }
   
   .panel {
@@ -34,4 +34,9 @@ body{
 .result{
     margin-top: 5%;
     font-size: x-large;
+}
+.win-message{
+    margin-top:5vh;
+    font-size: x-large;
+
 }
